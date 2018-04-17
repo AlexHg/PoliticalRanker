@@ -1,0 +1,111 @@
+body{
+    background: #276DA9;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; 
+}
+header{
+    height:50px;
+    border-bottom: 2px solid #181B2E;
+    /*background: #007bff !important;
+    border-bottom: 2px solid #0f3e70;*/
+    display:flex;
+    align-items: center;
+    justify-content: space-between;            
+}
+header ul{
+    margin-bottom: 0;
+}
+header h1{
+    font-family: 'Quattrocento Sans', sans-serif;
+    color: white;
+    font-size:25px;
+    margin-bottom:0;
+}
+header li{
+    display: inline-block;
+    list-style: none;
+    margin: 0 .5em;
+}
+header li a, header li a:hover{
+    color:white;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: 'Quattrocento Sans', sans-serif;
+}
+header, #AnalyzerINContainer{
+    background: #1B1E31;
+}
+#appContainer{
+    box-shadow: -5px 3px 15px rgba(0,0,0,.5), 5px 3px 15px rgba(0,0,0,.5) ;
+    margin: 40px;
+}
+#AnalyzerINContainer{
+    padding:1rem;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+}
+#AnalyzerOUT{
+    /*background:#272e56;*/
+    background:white;
+    color: #E0E0E0;
+    /*padding: 40px 0;*/
+    padding: 0;
+    /*overflow-y: scroll;*/
+}
+#AnalyzerOUTs{
+    display:flex;
+    margin-bottom: 40px;
+}
+#AnalyzerOUTs .v-card{
+    width:25%;
+    height:120px;
+    background:black;
+    text-align: center;
+    display:flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap; 
+}
+#AnalyzerOUTs .v-card:nth-child(1){
+    background:#1e9cdb;
+}
+#AnalyzerOUTs .v-card:nth-child(2){
+    background:#19b153;
+}
+#AnalyzerOUTs .v-card:nth-child(3){
+    background:#d81e81;
+}
+#AnalyzerOUTs .v-card:nth-child(4){
+    background:#d8aa1e;
+}
+#AnalyzerOUTs .v-card span{
+    width:100%;
+    display: block;
+}
+#AnalyzerOUTs .v-card span.number{
+    font-size: 40px;
+    line-height: 30px;
+}
+#AnalyzerOUTs .v-card span.class{
+    text-transform: uppercase;
+}
+#AnalyzerIN{
+    display:block;
+    width:calc(100% - 80px);
+    margin: 40px;
+    margin-top: 20px;
+    background:#222538;
+    border: 0px;
+    resize: none;
+    color:white;
+}
+#resultadosRadar{
+    max-width: 100%!important; 
+}
+#interpretacion{
+    margin: 40px 1.5rem;
+    color:black;
+}

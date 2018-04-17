@@ -5,26 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Hind+Siliguri|Quattrocento+Sans" rel="stylesheet">
     <!-- Coleccion de palabras separados por categoria -->
     <script src="PRCollection.js"></script>
+    <script src="js/Chart.js"></script>
+    <link href="css/styles.css" rel="stylesheet">
+    <style></style>
 </head>
 <body>
+    <div class="container" id="appContainer">
+        <div class="row">
+            <header class="col-12">
+                <h1>Political Ranker</h1>
+                <ul>
+                    <li><a href="">Publicacion</a></li>
+                    <li><a href="">Social</a></li>
+                </ul>
+            </header>
+        </div>
+        <div class="row">
+            <div class="col-md-6" id="AnalyzerINContainer" align="center">
+                <h3 style="color:white;font-family: 'Quattrocento Sans', sans-serif;" data-toggle="tooltip" data-placement="bottom" title="Escribe el texto que desea analizar">
+                    Analizador de textos politicos
+                </h3>
+                <a href="#" style="font-weight: 700;text-decoration: underline;">Texto</a>
+                <span style="color:#222538;"> | </span>
+                <a href="#">Facebook</a>
+                <textarea 
+                    name="AnalyzerIN" 
+                    id="AnalyzerIN" 
+                    cols="30" 
+                    rows="10"
+                ></textarea>
 
-    <textarea 
-        name="AnalyzerIN" 
-        id="AnalyzerIN" 
-        cols="30" 
-        rows="10"
-    ></textarea>
+                <button type="button" class="btn btn-primary" id="AnalyzerActionButton">
+                    Analizar
+                </button>
+            </div>
 
-    <button id="AnalyzerActionButton">
-        Analizar
-    </button>
-
-    <section id="AnalyzerOUT">
-
-    </section>
+            <section id="AnalyzerOUT" class="col-md-6">
+                <div id="AnalyzerOUTs"></div>
+                <canvas id="resultadosRadar"></canvas>
+                <div id="interpretacion"></div>
+            </section>
+        </div>            
+    </div>
 </body>
     <!-- PoliticalRanker Script -->
     <script src="PoliticalRanker.js"></script>
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+        
+
+        $PR.button.addEventListener(
+            "click", Analyzer
+        );
+        
+    </script>
 </html>

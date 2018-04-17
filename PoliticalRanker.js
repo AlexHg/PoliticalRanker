@@ -1,3 +1,4 @@
+
 //PoliticalRanker
 var $PR = {
     // Obtiene el boton para activar el analizador
@@ -5,35 +6,52 @@ var $PR = {
     // Obtiene el campo donde se ingresa el parrafo
     input: document.querySelector("#AnalyzerIN"),
     // Obtiene el campo donde se pondrá el resultado
-    output: document.querySelector("#AnalyzerOUT"),
+    output: document.querySelector("#AnalyzerOUTs"),
+    // Obtiene el lienzo donde se dibujará la grafica de radar
+    canvas: document.getElementById("resultadosRadar"),
+    // Obtiene el campo donde se pondrá la interpretación
+    interpretacion: document.getElementById("interpretacion"),
     // Obtiene la coleccion de palabras en PRCollection.js
-    collection: PRCollection,
-}
-function acent_rmv(s) {
-    var r=s.toLowerCase();
-    r = r.replace(new RegExp(/\s/g),"");
-    r = r.replace(new RegExp(/[àáâãäå]/g),"a");
-    r = r.replace(new RegExp(/[èéêë]/g),"e");
-    r = r.replace(new RegExp(/[ìíîï]/g),"i");
-    r = r.replace(new RegExp(/ñ/g),"n");                
-    r = r.replace(new RegExp(/[òóôõö]/g),"o");
-    r = r.replace(new RegExp(/[ùúûü]/g),"u");        
-    return r;
+    collection: PRCollection
+    
 }
 
+
 var Analyzer = function() {
-    var result = []; // Resultado a guardar
+    // Reinicia los valores globales
+    var $PRcat = [];
+    var $PResult = [];
+    var $PRcat2 = [];
+    var $PResult2 = [];
+
+    var result = []; // Resultado a guardar tipo 1
+    var result2 = []; // Resultado a guardar tipo 2
     var output_text = ""; // Resultado a imprimir
 
     // Toma el texto insertado y cambia a minusculas todas las letras
     var input_text = $PR.input.value.toLowerCase();
     
+    // El comparador guarda el valor mayor del arreglo de acuerdo al contador y a la prioridad
+    var comparador = {
+        categoria: "",
+        contador: -1, // Mayor es mejor
+        prioridad: 1000 // Menor es mejor
+    }
+    var comparador2 = {
+        categoria: "",
+        contador: -1,
+        prioridad: 1000
+    }
+
     // Recorre las categorias de la coleccion
     for(var categoria in $PR.collection){
+        
         // Contador de coincidencias entre las palabras de una categoria y el texto insertado
         var contador = 0; 
         // Lista de palabras en la categoria
-        var palabras_list = $PR.collection[categoria]; 
+        var cat = $PR.collection[categoria];
+        var palabras_list = cat.palabras; 
+        var prioridad = cat.prioridad;
         // Recorre las palabras de cada categoria
         for(var palabra_index in palabras_list){
             //Convierte todas las letras de la palabra en minusculas
@@ -64,16 +82,95 @@ var Analyzer = function() {
         // Agrega el resultado de la categoria a un string 
         output_text += categoria+": "+contador+"<br>";
         //- y a un arreglo
-        result[categoria] = contador;
+        if(cat.tipo == 1){ 
+            result[categoria] = contador; 
+            
+            if(
+                (contador > comparador.contador) ||
+                (contador == comparador.contador && prioridad < comparador.prioridad)
+            ){
+                comparador.categoria = categoria;
+                comparador.contador = contador;
+                comparador.prioridad = prioridad;
+            }
+
+             // Los agrega a las listas de datos a graficar (grafica de radar)
+            $PRcat.push(categoria);
+            $PResult.push(contador); 
+
+            
+        }
+        else if(cat.tipo == 2){ 
+            result2[categoria] = contador; 
+            //console.log(result2);
+            if(
+                (contador > comparador2.contador) ||
+                (contador == comparador2.contador && prioridad < comparador2.prioridad)
+            ){
+                comparador2.categoria = categoria;
+                comparador2.contador = contador;
+                comparador2.prioridad = prioridad;
+            }
+
+            $PRcat2.push(categoria);
+            $PResult2.push(contador);
+        }    
        
     }
     // Imprime el resultado en pantalla
-    $PR.output.innerHTML = output_text;
+    //$PR.output.innerHTML = output_text;
     //- y en consola
-    console.log(result);
+    //console.log(result);
+
+    // Agrega las cartas de los resultados obtenidos
+    addCards($PRcat2, $PResult2, $PR.output);
+    // Dibuja la grafica de radar con los resultados obtenidos
+    RadarChart($PR.canvas, $PRcat, $PResult);
+
+    if(comparador.contador > 0 && comparador2.contador > 0){
+        $PR.interpretacion.innerHTML = "<b>INTERPRETACION:</b> El texto es " + comparador.categoria + " y " + comparador2.categoria;
+    } else {
+        $PR.interpretacion.innerHTML = "";
+    }
+    
 }
 
+function addCards(pr_labels, pr_data, output){
+    output.innerHTML = "";
+    for(var i = 0; i < pr_labels.length ; i++){
+        output.innerHTML += '<div class="v-card"><span class="number">'+pr_data[i]+'</span><span class="class">'+pr_labels[i]+'</span></div>';
+    }
+}
 
-$PR.button.addEventListener(
-    "click", Analyzer
-);
+function RadarChart(canvas, pr_labels, pr_data){
+    var myRadarChart = new Chart(canvas, {
+        type: 'radar',
+        borderColor: "white",
+        data: {
+            labels: pr_labels,
+            datasets: [{
+                label: 'Función',
+                data: pr_data,
+                backgroundColor: [
+                    'rgba(0, 123, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(0, 123, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scale: {
+                // Hides the scale
+                display: true,
+                ticks: {
+                    suggestedMin: 0,    // minimum will be 0, unless there is a lower value.
+                    // OR //
+                    beginAtZero: true   // minimum value will be 0.
+                }
+            },
+            fullWidth: false
+        }
+    });
+}      
