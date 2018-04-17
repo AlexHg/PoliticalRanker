@@ -120,7 +120,8 @@ var Analyzer = function() {
     // Imprime el resultado en pantalla
     //$PR.output.innerHTML = output_text;
     //- y en consola
-    //console.log(result);
+    console.log(result);
+    console.log(result2);
 
     // Agrega las cartas de los resultados obtenidos
     addCards($PRcat2, $PResult2, $PR.output);
