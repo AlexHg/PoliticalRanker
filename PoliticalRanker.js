@@ -144,11 +144,14 @@ function addCards(pr_labels, pr_data, output){
 
 function callFB(){
     var fbl = document.querySelector("[name=facebook]").value; 
-    var url = "https://graph.facebook.com/v2.11/"+fbl+"?access_token=EAACEdEose0cBADfCOkczh55aq22Yy2gL0b0Kp6J4YYuPr2SpnoTpDg0dR1dlr3kPNDKkjXSw7Rwft7ne1Q9yk2vimnYglI2kETlagwFsixezSKuiN0ZA77YmZC47w8eS1C6o71NAeIN0qqp2nKqcRUtnJ4f0UON3C2iQ3CDCEmb3awqjIVzFyXxJPqpKAZD"
+    var graph_access_token = "242130709666458|_qhwNK6gw62BzBgql2eb5u4ElqA";
+    var url = "https://graph.facebook.com/v2.12/"+fbl+"?access_token="+graph_access_token;
 
     ajax_get( url, function( data ) {
         if(data.name != null){
             $PR.input.value = data.name;
+        }else if(data.description != null){
+            $PR.input.value = data.description;
         }
     });
 
@@ -193,7 +196,7 @@ function ajax_get(url, callback) {
     var flag = 0;
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            //console.log('responseText:' + xmlhttp.responseText);
+            console.log('responseText:' + xmlhttp.responseText);
             try {
                 var data = JSON.parse(xmlhttp.responseText);
             } catch(err) {
@@ -202,7 +205,7 @@ function ajax_get(url, callback) {
                 return;
             }
             callback(data);
-        }else if(xmlhttp.status == 400 || xmlhttp.status == 404){
+        }else if(xmlhttp.status == 400 || xmlhttp.status == 404 || xmlhttp.status == 403){
             if(flag == 0){
                 alert("El recurso que busca no existe");
                 flag = 1;
