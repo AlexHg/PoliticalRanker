@@ -92,11 +92,17 @@ header, #AnalyzerINContainer{
 #AnalyzerOUTs .v-card span.class{
     text-transform: uppercase;
 }
+[name=facebook]{
+    background:#222538;
+    border:0;
+    color:white;
+    margin-bottom: -5px;
+}
 #AnalyzerIN{
     display:block;
     width:calc(100% - 80px);
     margin: 40px;
-    margin-top: 20px;
+    margin-top: 15px;
     background:#222538;
     border: 0px;
     resize: none;
